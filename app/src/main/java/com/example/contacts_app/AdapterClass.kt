@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_each_contact.view.*
 class AdapterClass(var context: Context, var contactList:ArrayList<DataClass>): RecyclerView.Adapter<AdapterClass.view>(){
 
     var selectedList = ArrayList<String>()
+    var isSelectedItemMode :Boolean= false
 
     inner class view(var inner_view:View):RecyclerView.ViewHolder(inner_view){
 
@@ -20,16 +21,20 @@ class AdapterClass(var context: Context, var contactList:ArrayList<DataClass>): 
             itemView.contactPhoneNo.text = "Phone Number: "+ contact?.phoneNo
 
             itemView.linearLayout.setOnLongClickListener {
+
+                isSelectedItemMode = true
                 markSelectedItems(pos)
             }
             itemView.linearLayout.setOnClickListener {
-                deSelectItem(pos)
+                if(isSelectedItemMode == true and (contact?.isSelected ==false))
+                    markSelectedItems(pos)
+                else
+                    deSelectItem(pos)
             }
             if(contact?.isSelected==true)
                 itemView.select.visibility=View.VISIBLE
             else
                 itemView.select.visibility=View.GONE
-
 
         }
     }
